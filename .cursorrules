@@ -1,8 +1,22 @@
-the agent should work as a middleware that:
+This is the project of data masking/unmasking agent for AnythingLLM
 
+The agent should work as a middleware that:
 1. Takes my prompt
 2. Masks sensitive data in it
 3. Sends the masked prompt to the LLM chosen in AnythingLLM
 4. Gets the LLM's response
 5. Unmasks the sensitive data in the response
 6. Returns the final unmasked response to me in cht dialog
+
+Expected uses:
+1. User create dictionary of forbidden words he want to be masked before transferring prompt to LLM
+2. User understand that person names phone numbers and card numbers processed without dictionary by other rules
+3. User setup in data-masking-agent setings API keys for open ai, anthropic, google, deepseek and perplexity LLM models
+4. User write in data-masking-agent setings default LLM models for each provider like open-ai = "gpt-4o", anthropic = "claude 3.7" and so on. 
+5. User enter "enable" in data-masking-agent setings to enable masking/unmasking logging into file in the directory of data-masking-agent plugin to check afterwords what was masked and what wasnt masked 
+6. User initiate AnythingLLM masking agent (data-masking-agent) with command @agent msk anthropic followed by prompt wich should be privacy protected and wich is going to ask claude LLM with API from settings and model mentioned in settings of agent for anthropic provider as default
+7. User write prompt in AnithingLLM desktop and hit send button
+8. User then wait to see LLM answer 
+9. User see the answer on his prompt with initial (unmasked) names and words from dictionary to mask data.
+10. User open log file and check that all sensitive data was masked before it was send to LLM and unmasked correctly after the reply came.
+11. User continue to communicate with LLM via masking agent and LLM keeps context correctly not limiting dialog with current prompt.

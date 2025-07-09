@@ -10,7 +10,6 @@ alwaysApply: false
 - Edit files directly in the project structure
 - Save all changes before testing
 - Use hot-reload for quick iterations
-- No need to restart AnythingLLM after changes
 
 ### 2. Commit Message Format
 - type(scope): description
@@ -69,20 +68,7 @@ function debugFunction(input) {
 }
 ```
 
-### 8. Performance Monitoring
-- Log processing time for operations over 50ms
-- Monitor memory usage during development
-- Test with large text inputs (>10KB)
-- Profile regex performance
-
-### 9. Security Checklist
-- No console.log of sensitive data
-- Clear temporary variables after use
-- Validate all user inputs
-- Sanitize custom dictionary entries
-- No external network calls
-
-### 10. Release Checklist
+### 8. Release Checklist
 - All tests passing
 - Documentation updated
 - package.json version bumped
@@ -92,20 +78,20 @@ function debugFunction(input) {
 - plugin.json validated
 - Manual testing completed
 
-11. Common Pitfalls to Avoid
+### 9. Common Pitfalls to Avoid
 - Returning non-string values
 - Forgetting to bundle dependencies
 - Using unsupported UI input types
 - Hardcoding file paths
 - Assuming boolean types (use strings)
 
-### 12. Development Environment
+### 10. Development Environment
 - Use Node.js version specified in package.json
 - Test on Windows OS (primary target)
 - Use Cursor IDE for consistency
 - Enable ESLint for code quality
 
-### 13. Quick Commands
+### 11. Quick Commands
 ```bash
 # Install dependencies
 npm install
@@ -127,4 +113,3 @@ Before considering any step complete:
 - Documentation updated
 - No breaking changes to existing features
 - Error handling implemented
-- Performance acceptable (<100ms)
