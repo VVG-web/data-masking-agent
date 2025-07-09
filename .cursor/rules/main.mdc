@@ -1,0 +1,130 @@
+---
+description: Main Development Rules for Data Masking Agent Skill
+alwaysApply: false
+---
+# Main Development Rules for Data Masking Agent Skill
+
+## Development Workflow
+
+### 1. File Editing Rules
+- Edit files directly in the project structure
+- Save all changes before testing
+- Use hot-reload for quick iterations
+- No need to restart AnythingLLM after changes
+
+### 2. Commit Message Format
+- type(scope): description
+- feat(masking): add email masking function
+- fix(handler): correct string return type
+- test(unit): add validation tests
+- docs(readme): update installation steps
+
+### 3. Testing Protocol
+- Write tests BEFORE implementation
+- Run tests after EVERY change
+- All tests must pass before moving to next step
+- Use this test command: `npm test`
+
+### 4. Code Style Rules
+```javascript
+// Function declaration style
+function functionName(param1, param2) {
+  // Implementation
+  return String(result);
+}
+
+// Module exports style
+module.exports = {
+  functionName: functionName,
+  anotherFunction: anotherFunction
+};
+
+// Constant naming
+const EMAIL_PATTERN = /pattern/;
+const DEFAULT_MASK = "[MASKED]";
+```
+
+### 5. Documentation Requirements
+- Every function needs JSDoc comment
+- Update README.md with every new feature
+- Include examples in documentation
+- Document all setup_args options
+
+### 6. Version Control Rules
+- Create feature branch for each milestone
+- Merge only when all tests pass
+- Tag releases with semantic versioning
+- Keep main branch stable
+
+### 7. Debugging Guidelines
+```javascript
+// Use string returns for debug info
+function debugFunction(input) {
+  const debugInfo = {
+    input: input,
+    processed: processedValue,
+    timestamp: Date.now()
+  };
+  return JSON.stringify(debugInfo);
+}
+```
+
+### 8. Performance Monitoring
+- Log processing time for operations over 50ms
+- Monitor memory usage during development
+- Test with large text inputs (>10KB)
+- Profile regex performance
+
+### 9. Security Checklist
+- No console.log of sensitive data
+- Clear temporary variables after use
+- Validate all user inputs
+- Sanitize custom dictionary entries
+- No external network calls
+
+### 10. Release Checklist
+- All tests passing
+- Documentation updated
+- package.json version bumped
+- CHANGELOG.md updated
+- No debug code in production
+- Dependencies bundled in node_modules
+- plugin.json validated
+- Manual testing completed
+
+11. Common Pitfalls to Avoid
+- Returning non-string values
+- Forgetting to bundle dependencies
+- Using unsupported UI input types
+- Hardcoding file paths
+- Assuming boolean types (use strings)
+
+### 12. Development Environment
+- Use Node.js version specified in package.json
+- Test on Windows OS (primary target)
+- Use Cursor IDE for consistency
+- Enable ESLint for code quality
+
+### 13. Quick Commands
+```bash
+# Install dependencies
+npm install
+# Run tests
+npm test
+# Run specific test file
+npm test tests/unit/masking.test.js
+# Check for string returns
+npm run lint
+# Bundle for distribution
+npm run build
+```
+
+### 14. Review Criteria
+Before considering any step complete:
+- Functionality works as specified
+- All functions return strings
+- Tests written and passing
+- Documentation updated
+- No breaking changes to existing features
+- Error handling implemented
+- Performance acceptable (<100ms)

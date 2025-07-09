@@ -1,0 +1,27 @@
+{
+    "name": "data-masking-agent-skill",
+    "version": "1.0.0",
+    "description": "Privacy-preserving agent skill for AnythingLLM",
+    "main": "handler.js",
+    "scripts": {
+      "test": "jest",
+      "test:unit": "jest tests/unit",
+      "test:integration": "jest tests/integration"
+    },
+    "keywords": [
+      "anythingllm",
+      "agent-skill",
+      "privacy",
+      "data-masking"
+    ],
+    "author": "Your Name",
+    "license": "MIT",
+    "dependencies": {
+      "axios": "^1.6.0",
+      "masked-ai": "^1.0.0"
+    },
+    "devDependencies": {
+      "jest": "^29.7.0"
+    }
+  }
+  

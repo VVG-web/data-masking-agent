@@ -1,0 +1,3 @@
+[submodule "masked-ai"]
+	path = masked-ai
+	url = https://github.com/cado-security/masked-ai.git

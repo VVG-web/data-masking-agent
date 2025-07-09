@@ -1,0 +1,52 @@
+---
+description: Architecture Rules for Data Masking Agent Skill
+alwaysApply: false
+---
+# Architecture Rules for Data Masking Agent Skill
+
+## Project Structure
+- Root folder MUST be named `data-masking-agent-skill`
+- All file names MUST use lowercase with hyphens (kebab-case)
+- Plugin structure MUST follow AnythingLLM requirements exactly
+
+## Required Files Structure
+data-masking-agent-skill/
+├── plugin.json # Plugin manifest
+├── handler.js # Main logic file
+├── README.md # Documentation
+├── package.json # NPM dependencies
+├── package-lock.json # Dependency lock file
+├── node_modules/ # Bundled dependencies
+├── config/
+│ └── settings.json # Default settings
+└── tests/
+├── unit/ # Unit tests
+└── integration/ # Integration tests
+
+## Design Principles
+1. **String-Only Returns**: Every exported function MUST return a string
+2. **Self-Contained**: All dependencies MUST be bundled in node_modules
+3. **Hot-Reload Compatible**: Changes must not require app restart
+4. **Fail-Safe**: Errors should not break chat functionality
+5. **Stateless Operations**: Each function call should be independent
+
+## Integration Points
+- AnythingLLM agent-skill API
+- masked-ai library for core masking functionality
+- UI configuration through plugin.json setup_argsdocker --version
+
+## Data Flow Architecture
+1. User Input → Preprocessing (Masking) → LLM API
+2. LLM Response → Postprocessing (Unmasking) → User Display
+3. Configuration changes → Hot-reload → Updated behavior
+
+## Security Architecture
+- No persistent storage of sensitive data
+- In-memory mapping for two-way mode only
+- Clear session data on completion
+- No logging of masked/unmasked values
+
+## Performance Requirements
+- Maximum 100ms overhead for masking operations
+- Efficient regex compilation and caching
+- Minimal memory footprint (<50MB)

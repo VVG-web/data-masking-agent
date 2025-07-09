@@ -1,0 +1,8 @@
+the agent should work as a middleware that:
+
+1. Takes my prompt
+2. Masks sensitive data in it
+3. Sends the masked prompt to the LLM chosen in AnythingLLM
+4. Gets the LLM's response
+5. Unmasks the sensitive data in the response
+6. Returns the final unmasked response to me in cht dialog
