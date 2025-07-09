@@ -1,115 +1,76 @@
 {
-  "name": "data-masking-agent-skill",
+  "name": "data-masking-agent",
   "version": "1.0.0",
   "description": "Privacy-preserving agent that masks sensitive data before sending to LLMs",
   "author": "Your Name",
   "license": "MIT",
   "active": true,
-  "skill": "msk",
-  "display_name": "Data Masking Agent",
-  "setup_args": {
-    "enabled": {
-      "type": "string",
-      "required": false,
-      "input": {
-        "type": "select",
-        "label": "Enable masking/unmasking",
-        "description": "Enable or disable the masking functionality",
-        "default": "true",
-        "options": [
-          { "label": "Enabled", "value": "true" },
-          { "label": "Disabled", "value": "false" }
-        ]
-      }
-    },
-    "logging_enabled": {
-      "type": "string",
-      "required": false,
-      "input": {
-        "type": "select",
-        "label": "Enable logging",
-        "description": "Log masked/unmasked data to file for debugging",
-        "default": "false",
-        "options": [
-          { "label": "Enabled", "value": "true" },
-          { "label": "Disabled", "value": "false" }
-        ]
-      }
-    },
-    "forbidden_words": {
-      "type": "string",
-      "required": false,
-      "input": {
-        "type": "textarea",
-        "label": "Forbidden words dictionary",
-        "description": "Comma-separated list of words to mask",
-        "placeholder": "password,secret,confidential",
-        "default": ""
-      }
-    },
-    "openai_model": {
-      "type": "string",
-      "required": false,
-      "input": {
-        "type": "text",
-        "label": "OpenAI Default Model",
-        "description": "Default model for OpenAI",
-        "default": "gpt-4o"
-      }
-    },
-    "anthropic_model": {
-      "type": "string",
-      "required": false,
-      "input": {
-        "type": "text",
-        "label": "Anthropic Default Model",
-        "description": "Default model for Anthropic",
-        "default": "claude-3-opus-20240229"
-      }
-    },
-    "google_model": {
-      "type": "string",
-      "required": false,
-      "input": {
-        "type": "text",
-        "label": "Google Default Model",
-        "description": "Default model for Google",
-        "default": "gemini-pro"
-      }
-    },
-    "deepseek_model": {
-      "type": "string",
-      "required": false,
-      "input": {
-        "type": "text",
-        "label": "DeepSeek Default Model",
-        "description": "Default model for DeepSeek",
-        "default": "deepseek-chat"
-      }
-    },
-    "perplexity_model": {
-      "type": "string",
-      "required": false,
-      "input": {
-        "type": "text",
-        "label": "Perplexity Default Model",
-        "description": "Default model for Perplexity",
-        "default": "pplx-70b-online"
-      }
-    }
-  },
+  "hubId": "data-masking-agent",
   "entrypoint": {
     "file": "handler.js",
     "params": {
       "provider": {
-        "description": "LLM provider to use (openai, anthropic, google, deepseek, perplexity)",
-        "type": "string"
+        "type": "string",
+        "required": true,
+        "description": "LLM provider (openai, anthropic, google, deepseek, perplexity)"
       },
       "prompt": {
-        "description": "The prompt to send to the LLM after masking",
-        "type": "string"
+        "type": "string",
+        "required": true,
+        "description": "User prompt to be masked and sent to LLM"
       }
     }
   },
-  "documentation": "https://github.com/yourusername/data-masking-agent-skill"
+  "setup": {
+    "file": "setup.js",
+    "params": {
+      "enabled": {
+        "type": "boolean",
+        "default": true,
+        "description": "Enable/disable data masking"
+      },
+      "logging_enabled": {
+        "type": "boolean",
+        "default": false,
+        "description": "Enable/disable logging of masking operations"
+      },
+      "forbidden_words": {
+        "type": "string",
+        "default": "",
+        "description": "Comma-separated list of words to mask"
+      },
+      "openai_model": {
+        "type": "string",
+        "default": "gpt-4o",
+        "description": "Default OpenAI model"
+      },
+      "anthropic_model": {
+        "type": "string",
+        "default": "claude-3-opus-20240229",
+        "description": "Default Anthropic model"
+      },
+      "google_model": {
+        "type": "string",
+        "default": "gemini-pro",
+        "description": "Default Google model"
+      },
+      "deepseek_model": {
+        "type": "string",
+        "default": "deepseek-chat",
+        "description": "Default DeepSeek model"
+      },
+      "perplexity_model": {
+        "type": "string",
+        "default": "pplx-70b-online",
+        "description": "Default Perplexity model"
+      }
+    }
+  },
+  "commands": [
+    {
+      "command": "msk",
+      "description": "Mask sensitive data and send to LLM",
+      "usage": "@agent msk <provider> <prompt>"
+    }
+  ]
 }
