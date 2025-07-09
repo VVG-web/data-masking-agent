@@ -83,7 +83,6 @@ function debugFunction(input) {
 - Forgetting to bundle dependencies
 - Using unsupported UI input types
 - Hardcoding file paths
-- Assuming boolean types (use strings)
 
 ### 10. Development Environment
 - Use Node.js version specified in package.json

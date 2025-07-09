@@ -9,23 +9,31 @@
   "display_name": "Data Masking Agent",
   "setup_args": {
     "enabled": {
-      "type": "boolean",
+      "type": "string",
       "required": false,
       "input": {
-        "type": "checkbox",
+        "type": "select",
         "label": "Enable masking/unmasking",
         "description": "Enable or disable the masking functionality",
-        "default": true
+        "default": "true",
+        "options": [
+          { "label": "Enabled", "value": "true" },
+          { "label": "Disabled", "value": "false" }
+        ]
       }
     },
     "logging_enabled": {
-      "type": "boolean",
+      "type": "string",
       "required": false,
       "input": {
-        "type": "checkbox",
+        "type": "select",
         "label": "Enable logging",
         "description": "Log masked/unmasked data to file for debugging",
-        "default": false
+        "default": "false",
+        "options": [
+          { "label": "Enabled", "value": "true" },
+          { "label": "Disabled", "value": "false" }
+        ]
       }
     },
     "forbidden_words": {
@@ -39,16 +47,6 @@
         "default": ""
       }
     },
-    "openai_api_key": {
-      "type": "string",
-      "required": false,
-      "input": {
-        "type": "password",
-        "label": "OpenAI API Key",
-        "description": "API key for OpenAI models",
-        "placeholder": "sk-..."
-      }
-    },
     "openai_model": {
       "type": "string",
       "required": false,
@@ -57,16 +55,6 @@
         "label": "OpenAI Default Model",
         "description": "Default model for OpenAI",
         "default": "gpt-4o"
-      }
-    },
-    "anthropic_api_key": {
-      "type": "string",
-      "required": false,
-      "input": {
-        "type": "password",
-        "label": "Anthropic API Key",
-        "description": "API key for Anthropic models",
-        "placeholder": "sk-ant-..."
       }
     },
     "anthropic_model": {
@@ -79,16 +67,6 @@
         "default": "claude-3-opus-20240229"
       }
     },
-    "google_api_key": {
-      "type": "string",
-      "required": false,
-      "input": {
-        "type": "password",
-        "label": "Google API Key",
-        "description": "API key for Google models",
-        "placeholder": "AIza..."
-      }
-    },
     "google_model": {
       "type": "string",
       "required": false,
@@ -99,16 +77,6 @@
         "default": "gemini-pro"
       }
     },
-    "deepseek_api_key": {
-      "type": "string",
-      "required": false,
-      "input": {
-        "type": "password",
-        "label": "DeepSeek API Key",
-        "description": "API key for DeepSeek models",
-        "placeholder": "sk-..."
-      }
-    },
     "deepseek_model": {
       "type": "string",
       "required": false,
@@ -117,16 +85,6 @@
         "label": "DeepSeek Default Model",
         "description": "Default model for DeepSeek",
         "default": "deepseek-chat"
-      }
-    },
-    "perplexity_api_key": {
-      "type": "string",
-      "required": false,
-      "input": {
-        "type": "password",
-        "label": "Perplexity API Key",
-        "description": "API key for Perplexity models",
-        "placeholder": "pplx-..."
       }
     },
     "perplexity_model": {

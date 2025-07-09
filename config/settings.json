@@ -1,16 +1,11 @@
 {
-    "enabled": true,
-    "logging_enabled": false,
-    "forbidden_words": "",
-    "openai_api_key": "",
+    "enabled": "true",
+    "logging_enabled": "false",
+    "forbidden_words": "Егоров, ФНС",
     "openai_model": "gpt-4o",
-    "anthropic_api_key": "",
     "anthropic_model": "claude-3-opus-20240229",
-    "google_api_key": "",
     "google_model": "gemini-pro",
-    "deepseek_api_key": "",
     "deepseek_model": "deepseek-chat",
-    "perplexity_api_key": "",
     "perplexity_model": "pplx-70b-online"
   }
   

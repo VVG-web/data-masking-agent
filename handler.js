@@ -2,6 +2,13 @@ const fs = require('fs');
 const path = require('path');
 const { MaskedAI } = require('masked-ai');
 const axios = require('axios');
+const dotenv = require('dotenv');
+
+// Load environment variables from .env file
+const envPath = path.join(__dirname, '.env');
+if (fs.existsSync(envPath)) {
+  dotenv.config({ path: envPath });
+}
 
 // Initialize masking engine
 let masker = null;
@@ -12,17 +19,22 @@ function initializeMasker(settings) {
   const forbiddenWords = settings.forbidden_words ? 
     settings.forbidden_words.split(',').map(w => w.trim()).filter(w => w) : [];
   
+  // Initialize MaskedAI with custom patterns for forbidden words
   masker = new MaskedAI({
     customPatterns: forbiddenWords.map(word => ({
       pattern: new RegExp(`\\b${word}\\b`, 'gi'),
-      type: 'FORBIDDEN_WORD'
+      type: 'FORBIDDEN_WORD',
+      replacement: `[MASKED_${word.toUpperCase()}]`
     }))
   });
 }
 
 // Log masking operations
 function logMaskingOperation(operation, original, masked, settings) {
-  if (!settings.logging_enabled) return;
+  // Convert string boolean to actual boolean
+  const loggingEnabled = settings.logging_enabled === 'true';
+  
+  if (!loggingEnabled) return;
   
   const logDir = path.join(__dirname, 'logs');
   if (!fs.existsSync(logDir)) {
@@ -35,19 +47,25 @@ function logMaskingOperation(operation, original, masked, settings) {
     operation,
     original,
     masked,
-    mappings: masker.getMappings()
+    mappings: masker ? masker.getMappings() : {}
   };
   
   fs.appendFileSync(logFile, JSON.stringify(logEntry) + '\n');
 }
 
+// Get API key from environment or settings
+function getApiKey(provider) {
+  const envKey = `${provider.toUpperCase()}_API_KEY`;
+  return process.env[envKey] || '';
+}
+
 // Call LLM API
 async function callLLM(provider, prompt, settings, conversationId) {
-  const apiKey = settings[`${provider}_api_key`];
+  const apiKey = getApiKey(provider);
   const model = settings[`${provider}_model`];
   
   if (!apiKey) {
-    throw new Error(`API key for ${provider} not configured`);
+    throw new Error(`API key for ${provider} not configured. Please set ${provider.toUpperCase()}_API_KEY in .env file`);
   }
   
   // Get conversation history
@@ -192,8 +210,10 @@ async function callPerplexity(apiKey, model, prompt, history) {
 module.exports.runtime = {
   handler: async function ({ provider, prompt }, settings = {}) {
     try {
-      // Check if masking is enabled
-      if (settings.enabled === false) {
+      // Check if masking is enabled (convert string to boolean)
+      const isEnabled = settings.enabled !== 'false';
+      
+      if (!isEnabled) {
         return "Data masking is disabled. Enable it in the plugin settings.";
       }
       
@@ -211,7 +231,7 @@ module.exports.runtime = {
       // Generate conversation ID (simple timestamp-based)
       const conversationId = `conv_${Date.now()}`;
       
-      // Mask the prompt
+      // Mask the prompt using masked-ai
       const maskedPrompt = masker.mask(prompt);
       logMaskingOperation('mask_prompt', prompt, maskedPrompt, settings);
       
@@ -219,7 +239,7 @@ module.exports.runtime = {
       const maskedResponse = await callLLM(provider.toLowerCase(), maskedPrompt, settings, conversationId);
       logMaskingOperation('llm_response', null, maskedResponse, settings);
       
-      // Unmask the response
+      // Unmask the response using masked-ai
       const unmaskedResponse = masker.unmask(maskedResponse);
       logMaskingOperation('unmask_response', maskedResponse, unmaskedResponse, settings);
       
